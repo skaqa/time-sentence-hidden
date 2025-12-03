@@ -1,1 +1,1 @@
-word picture challenge
+u-z picture challenge
