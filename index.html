@@ -1197,6 +1197,11 @@ randomButton.addEventListener('click', function() {
     const overlays = imagesWrapper.querySelectorAll('.image-overlay-text');
     const textDisplayDuration = 1000;
 
+    isPaused = false;
+    isChallengeActive = true; 
+    pauseContinueButton.style.display = 'flex'; // Make the button visible
+    pauseContinueButton.innerHTML = PAUSE_CONTENT; // Ensure it says 'Pause'
+
     // --- STEP 1: PREPARE AND SHOW TEXT/CLOCK ---
     updateClock(newClockTime);
     
@@ -1247,10 +1252,12 @@ specialButton.addEventListener('click', function() {
     
     updateClock(READY_CLOCK_TIME);
     revealAndStopSquares(); // FULLY REVEAL the image for the ready state
-
+    
+    // --- NEW/ADJUSTED CODE FOR PAUSE STATE RESET ---
     isChallengeActive = false; // End the challenge state
     isPaused = false; // Reset pause state
-    pauseContinueButton.style.display = 'none';
+    pauseContinueButton.style.display = 'none'; // Hide the button
+    // ---------------------------------------------
     
     imagesWrapper.querySelectorAll('.image-overlay-text').forEach(overlay => {
         overlay.classList.remove('show-text');
