@@ -36,6 +36,9 @@
             --radius-md: 15px;
             --radius-lg: 20px;
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* NEW CLOCK VARIABLES */
+            --clock-bg: linear-gradient(145deg, #0f0f23, #1a1a2e);
+            --clock-glow: 0 0 30px rgba(67, 97, 238, 0.6);
         }
 
         * {
@@ -236,56 +239,144 @@
             opacity: 0.5;
         }
 
-        /* Digital Clock Styles */
-        #digital-clock {
-            background: linear-gradient(145deg, #1a1a2e, #16213e);
-            color: #00ff00; 
-            font-family: 'Orbitron', sans-serif;
-            padding: 30px;
-            border-radius: var(--radius-md);
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6), 
-                        inset 0 0 15px rgba(0, 255, 0, 0.4),
-                        0 10px 30px rgba(0, 0, 0, 0.3);
-            font-size: 5rem;
-            font-weight: 700;
-            text-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
-            min-width: 280px;
-            text-align: center;
-            border: 5px solid #0f3460;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 450px;
-            overflow: hidden;
-        }
-        
-        #digital-clock:before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg, 
-                transparent 30%, 
-                rgba(0, 255, 0, 0.1) 50%, 
-                transparent 70%
-            );
-            animation: clockGlow 6s infinite linear;
-        }
-        
-        .time-label {
-            font-size: 1.5rem;
-            color: #00ffaa;
-            margin-top: 15px;
-            font-weight: 400;
-            letter-spacing: 1px;
-            text-shadow: 0 0 5px rgba(0, 255, 170, 0.7);
-            z-index: 2;
-        }
+/* MODERN DIGITAL CLOCK STYLES */
+#digital-clock {
+    background: var(--clock-bg);
+    color: #ffffff;
+    font-family: 'Orbitron', monospace;
+    padding: 30px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--clock-glow), 
+                inset 0 8px 32px rgba(0, 0, 0, 0.4),
+                0 20px 40px rgba(0, 0, 0, 0.3);
+    font-size: 5rem;
+    font-weight: 700;
+    text-shadow: 0 0 15px rgba(67, 97, 238, 0.7);
+    min-width: 320px;
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 450px;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+/* Shimmer effect for the clock background */
+#digital-clock:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        transparent 20%,
+        rgba(67, 97, 238, 0.1) 50%,
+        transparent 80%
+    );
+    transform: rotate(30deg);
+    animation: shimmer 8s infinite linear;
+}
+
+/* Semi-transparent overlay for subtle light */
+#digital-clock:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(76, 201, 240, 0.05) 0%, 
+        rgba(114, 9, 183, 0.05) 100%);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* Gradient border effect using a mask */
+.clock-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, 
+        rgba(67, 97, 238, 0.8), 
+        rgba(76, 201, 240, 0.8), 
+        rgba(114, 9, 183, 0.8));
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+/* Gradient Text for the actual time display */
+#clock-display {
+    font-weight: 800;
+    letter-spacing: 5px;
+    z-index: 2;
+    position: relative;
+    padding: 0 20px;
+    background: linear-gradient(90deg, #ffffff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(67, 97, 238, 0.8));
+}
+
+/* Style for the blinking colon separator (set in JS) */
+.clock-separator {
+    animation: blink 2s infinite;
+    font-weight: 300;
+}
+
+/* Style for the time label (e.g., O'CLOCK, THIRTY) */
+.time-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    color: #a5b4fc;
+    margin-top: 25px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(165, 180, 252, 0.5);
+    z-index: 2;
+    position: relative;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Style for the clock status text */
+.clock-status {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    color: #8b9dff;
+    margin-top: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    z-index: 2;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.clock-status i {
+    font-size: 1.4rem;
+    color: #4cc9f0;
+}
 
         /* Progress Bar for Square Removal */
         .progress-container {
@@ -564,16 +655,37 @@
             }
         }
 
-        @keyframes clockGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+@keyframes shimmer {
+    0% { transform: translateX(-100%) rotate(30deg); }
+    100% { transform: translateX(100%) rotate(30deg); }
+}
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
-            50% { box-shadow: 0 0 30px rgba(0, 255, 0, 0.8); }
-            100% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
-        }
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+@keyframes pulse {
+    0% { box-shadow: var(--clock-glow); }
+    50% { box-shadow: 0 0 40px rgba(67, 97, 238, 0.8); }
+    100% { box-shadow: var(--clock-glow); }
+}
+
+@keyframes colorShift {
+    0% { 
+        background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+        box-shadow: 0 0 30px rgba(67, 97, 238, 0.6);
+    }
+    50% { 
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        box-shadow: 0 0 35px rgba(76, 201, 240, 0.7);
+    }
+    100% { 
+        background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+        box-shadow: 0 0 30px rgba(67, 97, 238, 0.6);
+    }
+}
+        
 
         .container, .header, #content-wrapper, .buttons-panel {
             animation: fadeInUp 0.6s ease-out forwards;
@@ -617,11 +729,18 @@
                 <!-- Image Container with Square Grid will be dynamically created here -->
             </div>
             
-            <div id="digital-clock">
-                <span id="clock-display">00:00</span>
-                <span class="time-label">Ready</span>
-            </div>
-        </div>
+    
+<div id="digital-clock">
+    <div class="clock-border"></div>  <!-- NEW: For the gradient border -->
+    <span id="clock-display">00:00</span>
+    <span class="time-label" id="time-label">Ready</span>
+    <div class="clock-status" id="clock-status"> <!-- NEW: For dynamic status text/icon -->
+        <i class="fas fa-clock"></i>
+        <span>Waiting for challenge</span>
+    </div>
+</div>
+
+  
         
         <div class="progress-container" id="progress-container">
             <div class="progress-bar" id="progress-bar"></div>
@@ -693,39 +812,66 @@
             }, duration);
         }
 
-        // === CLOCK FUNCTIONS ===
-        function getRandomClockTime() {
-            const randomHour = Math.floor(Math.random() * 12) + 1;
-            const randomMinute = Math.random() < 0.5 ? 0 : 30;
-            
-            const formattedHour = String(randomHour).padStart(2, '0');
-            const formattedMinute = String(randomMinute).padStart(2, '0');
-            
-            return `${formattedHour}:${formattedMinute}`;
+    
+// === ENHANCED CLOCK FUNCTIONS ===
+function getRandomClockTime() {
+    // This function remains the same, but included for completeness:
+    const randomHour = Math.floor(Math.random() * 12) + 1;
+    const randomMinute = Math.random() < 0.5 ? 0 : 30;
+    
+    const formattedHour = String(randomHour).padStart(2, '0');
+    const formattedMinute = String(randomMinute).padStart(2, '0');
+    
+    return `${formattedHour}:${formattedMinute}`;
+}
+
+function updateClock(timeString) {
+    // 1. Add blinking effect to the colon separator
+    const colon = '<span class="clock-separator">:</span>';
+    const displayText = timeString.replace(':', colon);
+    clockDisplay.innerHTML = displayText;
+    
+    // 2. Add pulse and colorShift animation to the entire clock
+    const clockElement = document.getElementById('digital-clock');
+    clockElement.style.animation = 'pulse 2s ease, colorShift 8s infinite';
+    
+    if (timeString === READY_CLOCK_TIME) {
+        timeLabel.textContent = "READY";
+        clockStatus.innerHTML = '<i class="fas fa-clock"></i><span>Waiting for challenge</span>';
+        clockElement.style.boxShadow = 'var(--clock-glow)'; // Reset glow on ready
+    } else {
+        const minute = timeString.split(':')[1];
+        if (minute === '00') {
+            timeLabel.textContent = "O'CLOCK";
+        } else if (minute === '30') {
+            timeLabel.textContent = "THIRTY";
+        } else {
+            timeLabel.textContent = ""; 
         }
         
-        function updateClock(timeString) {
-            clockDisplay.textContent = timeString;
-            
-            clockDisplay.style.animation = 'none';
-            setTimeout(() => {
-                clockDisplay.style.animation = 'pulse 1s ease';
-            }, 10);
-            
-            if (timeString === READY_CLOCK_TIME) {
-                clockLabel.textContent = "Ready";
-            } else {
-                const minute = timeString.split(':')[1];
-                if (minute === '00') {
-                    clockLabel.textContent = "o'clock";
-                } else if (minute === '30') {
-                    clockLabel.textContent = "thirty";
-                } else {
-                    clockLabel.textContent = ""; 
-                }
-            }
+        // 3. Update clock status based on time
+        const hour = parseInt(timeString.split(':')[0]);
+        let status = '';
+        if (hour >= 6 && hour < 12) {
+            status = 'Morning session';
+        } else if (hour >= 12 && hour < 18) {
+            status = 'Afternoon session';
+        } else {
+            status = 'Evening session';
         }
-        // END CLOCK FUNCTIONS
+        clockStatus.innerHTML = `<i class="fas fa-hourglass-half"></i><span>${status}</span>`;
+        
+        // 4. Update clock glow color based on time (visual cue for the user)
+        if (minute === '00') {
+            clockElement.style.boxShadow = '0 0 35px rgba(76, 201, 240, 0.7)'; // Cyan glow for o'clock
+        } else {
+            clockElement.style.boxShadow = '0 0 35px rgba(114, 9, 183, 0.7)'; // Purple glow for half-past
+        }
+    }
+}
+// END CLOCK FUNCTIONS
+
+  
 
 
         // === SQUARE GRID FUNCTIONS (REFACTORED FOR COVER/REVEAL) ===
