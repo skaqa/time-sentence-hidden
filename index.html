@@ -455,8 +455,6 @@
         const imagesWrapper = document.getElementById('images-wrapper');
         const randomButton = document.getElementById('randomImageButton');
         const specialButton = document.getElementById('specialImageButton');
-        // REMOVED: const imageSlider = document.getElementById('image-slider');
-        // REMOVED: const sliderValue = document.getElementById('slider-value');
 
         const TOTAL_IMAGES = 12;
         const SPECIAL_IMAGE_PATH = 'images/0.png';
@@ -472,15 +470,34 @@
         randomButton.innerHTML = RANDOM_BUTTON_CONTENT;
         specialButton.innerHTML = SPECIAL_BUTTON_CONTENT;
 
+        // === WORD SHUFFLE BAG SYSTEM (NEW) ===
+        const VOCAB_WORDS = ["you", "you(2 or more)", "he", "she", "it", "they"];
+        let wordShuffleBag = [];
 
-        // Function to randomly select 'BIG' or 'LITTLE'
-        function getRandomWord() {
-            const words = ["big", "little"]; // Use uppercase to match new CSS
-            const randomIndex = Math.floor(Math.random() * words.length);
-            return words[randomIndex];
+        function refillAndShuffleWordBag() {
+            wordShuffleBag = [...VOCAB_WORDS]; // Copy the words array
+            
+            // Fisher-Yates shuffle
+            for (let i = wordShuffleBag.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [wordShuffleBag[i], wordShuffleBag[j]] = [wordShuffleBag[j], wordShuffleBag[i]];
+            }
         }
 
-        // === SHUFFLE BAG SYSTEM ===
+        function getNextShuffledWord() {
+            if (wordShuffleBag.length === 0) {
+                refillAndShuffleWordBag();
+            }
+            return wordShuffleBag.pop();
+        }
+        
+        // Initialize the word bag on load
+        refillAndShuffleWordBag();
+        
+        // REMOVED: function getRandomWord() {} (Replaced by getNextShuffledWord)
+
+
+        // === IMAGE SHUFFLE BAG SYSTEM (Existing, for images 1-12) ===
         let shuffleBag = [];
 
         function refillAndShuffleBag() {
@@ -502,10 +519,10 @@
             return shuffleBag.pop(); // Take from end for efficiency
         }
 
-        // Initialize the bag on load
+        // Initialize the image bag on load
         refillAndShuffleBag();
 
-        // === Image UI Management (MODIFIED TO STATICALLY CREATE 1 IMAGE) ===
+        // === Image UI Management ===
 
         // Function to create and insert the single image element
         function createInitialImageSlot() {
@@ -538,11 +555,9 @@
             imagesWrapper.appendChild(container);
         }
         
-        // Initial creation of 1 image slot (REPLACED DYNAMIC CALL)
+        // Initial creation of 1 image slot
         createInitialImageSlot();
 
-        // REMOVED: Slider Event Listener 
-        
         // === Button Feedback ===
         function setButtonLoading(button, isLoading) {
             
@@ -587,7 +602,7 @@
             console.log("Attempting to load image:", newPath); 
         }
 
-        // === Random Button Logic (Modified duration for a single image) ===
+        // === Random Button Logic (Modified to use the Word Shuffle Bag) ===
         randomButton.addEventListener('click', function() {
             if (randomButton.classList.contains('loading')) return;
 
@@ -612,9 +627,9 @@
             setTimeout(() => {
                 // --- STEP 2: TEXT APPEARS ---
                 overlays.forEach((overlay, index) => {
-                    // Set a new random word for each overlay
-                    const randomWord = getRandomWord();
-                    overlay.textContent = randomWord; 
+                    // Set a new shuffled word for the overlay
+                    const shuffledWord = getNextShuffledWord(); // *** NEW WORD FUNCTION ***
+                    overlay.textContent = shuffledWord; 
                     overlay.classList.add('show-text'); // Show text
                 });
                 
