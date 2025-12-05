@@ -133,7 +133,7 @@
             gap: 40px;
             width: 100%;
             margin-bottom: 20px;
-            flex-wrap: wrap; 
+            flex-wrap: wrap;
         }
 
         /* Images Wrapper */
@@ -169,7 +169,7 @@
             background: white;
             transform: translateZ(10px);
         }
-        
+
         /* Size adjustments - Fixed to single size (was images-wrapper-1) */
         .images-wrapper-1 .flashcard-image {
             width: 450px;
@@ -218,7 +218,7 @@
             justify-content: center;
             z-index: 1000;
             font-family: 'Nunito', sans-serif;
-            font-size: 3.5rem; 
+            font-size: 3.5rem;
             font-weight: 900;
             color: white;
             background: linear-gradient(135deg, rgba(67, 97, 238, 0.95), rgba(114, 9, 183, 0.95));
@@ -239,144 +239,144 @@
             opacity: 0.5;
         }
 
-/* MODERN DIGITAL CLOCK STYLES */
-#digital-clock {
-    background: var(--clock-bg);
-    color: #ffffff;
-    font-family: 'Orbitron', monospace;
-    padding: 30px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--clock-glow), 
-                inset 0 8px 32px rgba(0, 0, 0, 0.4),
-                0 20px 40px rgba(0, 0, 0, 0.3);
-    font-size: 5rem;
-    font-weight: 700;
-    text-shadow: 0 0 15px rgba(67, 97, 238, 0.7);
-    min-width: 320px;
-    text-align: center;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 450px;
-    overflow: hidden;
-    transition: all 0.5s ease;
-}
+        /* MODERN DIGITAL CLOCK STYLES */
+        #digital-clock {
+            background: var(--clock-bg);
+            color: #ffffff;
+            font-family: 'Orbitron', monospace;
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--clock-glow),
+                        inset 0 8px 32px rgba(0, 0, 0, 0.4),
+                        0 20px 40px rgba(0, 0, 0, 0.3);
+            font-size: 5rem;
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(67, 97, 238, 0.7);
+            min-width: 320px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 450px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
 
-/* Shimmer effect for the clock background */
-#digital-clock:before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        to right,
-        transparent 20%,
-        rgba(67, 97, 238, 0.1) 50%,
-        transparent 80%
-    );
-    transform: rotate(30deg);
-    animation: shimmer 8s infinite linear;
-}
+        /* Shimmer effect for the clock background */
+        #digital-clock:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 20%,
+                rgba(67, 97, 238, 0.1) 50%,
+                transparent 80%
+            );
+            transform: rotate(30deg);
+            animation: shimmer 8s infinite linear;
+        }
 
-/* Semi-transparent overlay for subtle light */
-#digital-clock:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, 
-        rgba(76, 201, 240, 0.05) 0%, 
-        rgba(114, 9, 183, 0.05) 100%);
-    border-radius: inherit;
-    pointer-events: none;
-}
+        /* Semi-transparent overlay for subtle light */
+        #digital-clock:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(76, 201, 240, 0.05) 0%,
+                rgba(114, 9, 183, 0.05) 100%);
+            border-radius: inherit;
+            pointer-events: none;
+        }
 
-/* Gradient border effect using a mask */
-.clock-border {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: inherit;
-    padding: 2px;
-    background: linear-gradient(135deg, 
-        rgba(67, 97, 238, 0.8), 
-        rgba(76, 201, 240, 0.8), 
-        rgba(114, 9, 183, 0.8));
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-}
+        /* Gradient border effect using a mask */
+        .clock-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: linear-gradient(135deg,
+                rgba(67, 97, 238, 0.8),
+                rgba(76, 201, 240, 0.8),
+                rgba(114, 9, 183, 0.8));
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
 
-/* Gradient Text for the actual time display */
-#clock-display {
-    font-weight: 800;
-    letter-spacing: 5px;
-    z-index: 2;
-    position: relative;
-    padding: 0 20px;
-    background: linear-gradient(90deg, #ffffff, #a5b4fc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 0 10px rgba(67, 97, 238, 0.8));
-}
+        /* Gradient Text for the actual time display */
+        #clock-display {
+            font-weight: 800;
+            letter-spacing: 5px;
+            z-index: 2;
+            position: relative;
+            padding: 0 20px;
+            background: linear-gradient(90deg, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 10px rgba(67, 97, 238, 0.8));
+        }
 
-/* Style for the blinking colon separator (set in JS) */
-.clock-separator {
-    animation: blink 2s infinite;
-    font-weight: 300;
-}
+        /* Style for the blinking colon separator (set in JS) */
+        .clock-separator {
+            animation: blink 2s infinite;
+            font-weight: 300;
+        }
 
-/* Style for the time label (e.g., O'CLOCK, THIRTY) */
-.time-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.8rem;
-    color: #a5b4fc;
-    margin-top: 25px;
-    font-weight: 400;
-    letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(165, 180, 252, 0.5);
-    z-index: 2;
-    position: relative;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
+        /* Style for the time label (e.g., O'CLOCK, THIRTY) */
+        .time-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            color: #a5b4fc;
+            margin-top: 25px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(165, 180, 252, 0.5);
+            z-index: 2;
+            position: relative;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-/* Style for the clock status text */
-.clock-status {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.2rem;
-    color: #8b9dff;
-    margin-top: 15px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    z-index: 2;
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+        /* Style for the clock status text */
+        .clock-status {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            color: #8b9dff;
+            margin-top: 15px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            z-index: 2;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-.clock-status i {
-    font-size: 1.4rem;
-    color: #4cc9f0;
-}
+        .clock-status i {
+            font-size: 1.4rem;
+            color: #4cc9f0;
+        }
 
         /* Progress Bar for Square Removal */
         .progress-container {
@@ -388,7 +388,7 @@
             overflow: hidden;
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
         }
-        
+
         .progress-bar {
             height: 100%;
             background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
@@ -558,11 +558,11 @@
             .container {
                 padding: 30px 20px;
             }
-            
+
             h1 {
                 font-size: 2.8rem;
             }
-            
+
             .images-wrapper-1 .flashcard-image {
                 width: 350px;
                 height: 350px;
@@ -579,35 +579,35 @@
 
         @media (max-width: 768px) {
             #content-wrapper {
-                flex-direction: column; 
+                flex-direction: column;
                 gap: 30px;
             }
-            
+
             h1 {
                 font-size: 2.3rem;
             }
-            
+
             .buttons-panel {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .action-button {
                 width: 100%;
                 max-width: 350px;
             }
-            
+
             .images-wrapper-1 .flashcard-image {
                 width: 300px;
                 height: 300px;
             }
-            
+
             .image-overlay-text {
-                font-size: 3rem; 
+                font-size: 3rem;
             }
-            
+
             #digital-clock {
-                height: auto; 
+                height: auto;
                 width: 100%;
                 max-width: 300px;
                 font-size: 4rem;
@@ -623,28 +623,28 @@
             body {
                 padding: 10px;
             }
-            
+
             .container {
                 padding: 20px 15px;
             }
-            
+
             h1 {
                 font-size: 2rem;
             }
-            
+
             .subtitle {
                 font-size: 1rem;
             }
-            
+
             .images-wrapper-1 .flashcard-image {
                 width: 260px;
                 height: 260px;
             }
-            
+
             .image-overlay-text {
-                font-size: 2.5rem; 
+                font-size: 2.5rem;
             }
-            
+
             #digital-clock {
                 max-width: 260px;
                 font-size: 3rem;
@@ -664,37 +664,37 @@
             }
         }
 
-@keyframes shimmer {
-    0% { transform: translateX(-100%) rotate(30deg); }
-    100% { transform: translateX(100%) rotate(30deg); }
-}
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
 
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
 
-@keyframes pulse {
-    0% { box-shadow: var(--clock-glow); }
-    50% { box-shadow: 0 0 40px rgba(67, 97, 238, 0.8); }
-    100% { box-shadow: var(--clock-glow); }
-}
+        @keyframes pulse {
+            0% { box-shadow: var(--clock-glow); }
+            50% { box-shadow: 0 0 40px rgba(67, 97, 238, 0.8); }
+            100% { box-shadow: var(--clock-glow); }
+        }
 
-@keyframes colorShift {
-    0% { 
-        background: linear-gradient(135deg, #0f0f23, #1a1a2e);
-        box-shadow: 0 0 30px rgba(67, 97, 238, 0.6);
-    }
-    50% { 
-        background: linear-gradient(135deg, #1a1a2e, #16213e);
-        box-shadow: 0 0 35px rgba(76, 201, 240, 0.7);
-    }
-    100% { 
-        background: linear-gradient(135deg, #0f0f23, #1a1a2e);
-        box-shadow: 0 0 30px rgba(67, 97, 238, 0.6);
-    }
-}
-        
+        @keyframes colorShift {
+            0% {
+                background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+                box-shadow: 0 0 30px rgba(67, 97, 238, 0.6);
+            }
+            50% {
+                background: linear-gradient(135deg, #1a1a2e, #16213e);
+                box-shadow: 0 0 35px rgba(76, 201, 240, 0.7);
+            }
+            100% {
+                background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+                box-shadow: 0 0 30px rgba(67, 97, 238, 0.6);
+            }
+        }
+
 
         .container, .header, #content-wrapper, .buttons-panel {
             animation: fadeInUp 0.6s ease-out forwards;
@@ -702,7 +702,7 @@
 
         #content-wrapper { animation-delay: 0.1s; }
         .buttons-panel { animation-delay: 0.2s; }
-        
+
         /* Notification styles */
         .notification {
             position: fixed;
@@ -718,7 +718,7 @@
             transition: transform 0.5s ease;
             font-weight: 500;
         }
-        
+
         .notification.show {
             transform: translateX(0);
         }
@@ -726,7 +726,7 @@
 </head>
 <body>
     <div class="notification" id="notification"></div>
-    
+
     <div class="container">
         <div class="header">
             <h1>Time & Hidden Picture Challenge</h1>
@@ -737,20 +737,19 @@
             <div id="images-wrapper" class="images-wrapper-1">
                 <!-- Image Container with Square Grid will be dynamically created here -->
             </div>
-            
-    
-<div id="digital-clock">
-    <div class="clock-border"></div>  <!-- NEW: For the gradient border -->
-    <span id="clock-display">00:00</span>
-    <span class="time-label" id="time-label">Ready</span>
-    <div class="clock-status" id="clock-status"> <!-- NEW: For dynamic status text/icon -->
-        <i class="fas fa-clock"></i>
-        <span>Waiting for challenge</span>
-    </div>
-</div>
 
-  
-        
+
+            <div id="digital-clock">
+                <div class="clock-border"></div>  <!-- NEW: For the gradient border -->
+                <span id="clock-display">00:00</span>
+                <span class="time-label" id="time-label">Ready</span>
+                <div class="clock-status" id="clock-status"> <!-- NEW: For dynamic status text/icon -->
+                    <i class="fas fa-clock"></i>
+                    <span>Waiting for challenge</span>
+                </div>
+            </div>
+        </div>
+
         <div class="progress-container" id="progress-container">
             <div class="progress-bar" id="progress-bar"></div>
         </div>
@@ -788,14 +787,14 @@
             </div>
         </div>
     </div>
-    
-<script>
+
+    <script>
         const imagesWrapper = document.getElementById('images-wrapper');
         const randomButton = document.getElementById('randomImageButton');
         const specialButton = document.getElementById('specialImageButton');
         const pauseContinueButton = document.getElementById('pauseContinueButton');
         const clockDisplay = document.getElementById('clock-display');
-        const timeLabel = document.getElementById('time-label'); 
+        const timeLabel = document.getElementById('time-label');
         const clockStatus = document.getElementById('clock-status');
         const notification = document.getElementById('notification');
         const progressBar = document.getElementById('progress-bar');
@@ -804,9 +803,9 @@
 
         const TOTAL_IMAGES = 7;
         const SPECIAL_IMAGE_PATH = 'images/0.png';
-        
-        const RANDOM_BUTTON_CONTENT = '<i class="fas fa-random"></i><span>Show Random Images</span>'; 
-        const SPECIAL_BUTTON_CONTENT = '<i class="fas fa-home"></i><span>Back To Ready</span>';     
+
+        const RANDOM_BUTTON_CONTENT = '<i class="fas fa-random"></i><span>Show Random Images</span>';
+        const SPECIAL_BUTTON_CONTENT = '<i class="fas fa-home"></i><span>Back To Ready</span>';
         const PAUSE_CONTENT = '<i class="fas fa-pause"></i><span>Pause</span>';
         const CONTINUE_CONTENT = '<i class="fas fa-play"></i><span>Continue</span>';
 
@@ -817,115 +816,113 @@
         const SQUARES_PER_SECOND = 15;
         let remainingSquares = TOTAL_SQUARES;
         let squaresRemoved = 0;
-        let isPaused = false; 
+        let isPaused = false;
         let isChallengeActive = false;
 
         // === PAUSE/CONTINUE LOGIC ===
 
-function setPauseState(shouldPause) {
-    if (!isChallengeActive) return; // Only pause if a challenge is running
-    
-    isPaused = shouldPause;
-    
-    if (isPaused) {
-        // Pause: Clear the interval, update button, show notification
-        clearInterval(squareRemovalInterval);
-        squareRemovalInterval = null;
-        
-        pauseContinueButton.innerHTML = CONTINUE_CONTENT;
-        updateClockStatus('Challenge paused', 'fa-pause-circle');
-        showNotification("Challenge Paused. Click 'Continue' to resume.");
-        
-    } else {
-        // Continue: Restart the interval, update button, show notification
-        squareRemovalInterval = setInterval(removeSquaresGradually, 1000);
-        
-        pauseContinueButton.innerHTML = PAUSE_CONTENT;
-        updateClockStatus('Revealing picture...', 'fa-eye');
-        showNotification("Challenge Resumed. Squares are still removing!");
-    }
-}
+        function setPauseState(shouldPause) {
+            if (!isChallengeActive) return; // Only pause if a challenge is running
 
-// Helper function to update clock status element
-function updateClockStatus(message, iconClass) {
-    clockStatus.innerHTML = `<i class="fas ${iconClass}"></i><span>${message}</span>`;
-}
+            isPaused = shouldPause;
 
-// Add the event listener for the new button
-pauseContinueButton.addEventListener('click', function() {
-    setPauseState(!isPaused);
-});
+            if (isPaused) {
+                // Pause: Clear the interval, update button, show notification
+                clearInterval(squareRemovalInterval);
+                squareRemovalInterval = null;
+
+                pauseContinueButton.innerHTML = CONTINUE_CONTENT;
+                updateClockStatus('Challenge paused', 'fa-pause-circle');
+                showNotification("Challenge Paused. Click 'Continue' to resume.");
+
+            } else {
+                // Continue: Restart the interval, update button, show notification
+                squareRemovalInterval = setInterval(removeSquaresGradually, 1000);
+
+                pauseContinueButton.innerHTML = PAUSE_CONTENT;
+                updateClockStatus('Revealing picture...', 'fa-eye');
+                showNotification("Challenge Resumed. Squares are still removing!");
+            }
+        }
+
+        // Helper function to update clock status element
+        function updateClockStatus(message, iconClass) {
+            clockStatus.innerHTML = `<i class="fas ${iconClass}"></i><span>${message}</span>`;
+        }
+
+        // Add the event listener for the new button
+        pauseContinueButton.addEventListener('click', function() {
+            setPauseState(!isPaused);
+        });
 
         // === NOTIFICATION FUNCTION ===
         function showNotification(message, duration = 3000) {
             notification.textContent = message;
             notification.classList.add('show');
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
             }, duration);
         }
 
-    
-// === ENHANCED CLOCK FUNCTIONS ===
-function getRandomClockTime() {
-    // This function remains the same, but included for completeness:
-    const randomHour = Math.floor(Math.random() * 12) + 1;
-    const randomMinute = Math.random() < 0.5 ? 0 : 30;
-    
-    const formattedHour = String(randomHour).padStart(2, '0');
-    const formattedMinute = String(randomMinute).padStart(2, '0');
-    
-    return `${formattedHour}:${formattedMinute}`;
-}
 
-function updateClock(timeString) {
-    // 1. Add blinking effect to the colon separator
-    const colon = '<span class="clock-separator">:</span>';
-    const displayText = timeString.replace(':', colon);
-    clockDisplay.innerHTML = displayText;
-    
-    // 2. Add pulse and colorShift animation to the entire clock
-    const clockElement = document.getElementById('digital-clock');
-    clockElement.style.animation = 'pulse 2s ease, colorShift 8s infinite';
-    
-    if (timeString === READY_CLOCK_TIME) {
-        timeLabel.textContent = "READY";
-        clockStatus.innerHTML = '<i class="fas fa-clock"></i><span>Waiting for challenge</span>';
-        clockElement.style.boxShadow = 'var(--clock-glow)'; // Reset glow on ready
-    } else {
-        const minute = timeString.split(':')[1];
-        if (minute === '00') {
-            timeLabel.textContent = "O'CLOCK";
-        } else if (minute === '30') {
-            timeLabel.textContent = "THIRTY";
-        } else {
-            timeLabel.textContent = ""; 
-        }
-        
-        // 3. Update clock status based on time
-        const hour = parseInt(timeString.split(':')[0]);
-        let status = '';
-        if (hour >= 6 && hour < 12) {
-            status = 'Morning session';
-        } else if (hour >= 12 && hour < 18) {
-            status = 'Afternoon session';
-        } else {
-            status = 'Evening session';
-        }
-        clockStatus.innerHTML = `<i class="fas fa-hourglass-half"></i><span>${status}</span>`;
-        
-        // 4. Update clock glow color based on time (visual cue for the user)
-        if (minute === '00') {
-            clockElement.style.boxShadow = '0 0 35px rgba(76, 201, 240, 0.7)'; // Cyan glow for o'clock
-        } else {
-            clockElement.style.boxShadow = '0 0 35px rgba(114, 9, 183, 0.7)'; // Purple glow for half-past
-        }
-    }
-}
-// END CLOCK FUNCTIONS
+        // === ENHANCED CLOCK FUNCTIONS ===
+        function getRandomClockTime() {
+            // This function remains the same, but included for completeness:
+            const randomHour = Math.floor(Math.random() * 12) + 1;
+            const randomMinute = Math.random() < 0.5 ? 0 : 30;
 
-  
+            const formattedHour = String(randomHour).padStart(2, '0');
+            const formattedMinute = String(randomMinute).padStart(2, '0');
+
+            return `${formattedHour}:${formattedMinute}`;
+        }
+
+        function updateClock(timeString) {
+            // 1. Add blinking effect to the colon separator
+            const colon = '<span class="clock-separator">:</span>';
+            const displayText = timeString.replace(':', colon);
+            clockDisplay.innerHTML = displayText;
+
+            // 2. Add pulse and colorShift animation to the entire clock
+            const clockElement = document.getElementById('digital-clock');
+            clockElement.style.animation = 'pulse 2s ease, colorShift 8s infinite';
+
+            if (timeString === READY_CLOCK_TIME) {
+                timeLabel.textContent = "READY";
+                clockStatus.innerHTML = '<i class="fas fa-clock"></i><span>Waiting for challenge</span>';
+                clockElement.style.boxShadow = 'var(--clock-glow)'; // Reset glow on ready
+            } else {
+                const minute = timeString.split(':')[1];
+                if (minute === '00') {
+                    timeLabel.textContent = "O'CLOCK";
+                } else if (minute === '30') {
+                    timeLabel.textContent = "THIRTY";
+                } else {
+                    timeLabel.textContent = "";
+                }
+
+                // 3. Update clock status based on time
+                const hour = parseInt(timeString.split(':')[0]);
+                let status = '';
+                if (hour >= 6 && hour < 12) {
+                    status = 'Morning session';
+                } else if (hour >= 12 && hour < 18) {
+                    status = 'Afternoon session';
+                } else {
+                    status = 'Evening session';
+                }
+                clockStatus.innerHTML = `<i class="fas fa-hourglass-half"></i><span>${status}</span>`;
+
+                // 4. Update clock glow color based on time (visual cue for the user)
+                if (minute === '00') {
+                    clockElement.style.boxShadow = '0 0 35px rgba(76, 201, 240, 0.7)'; // Cyan glow for o'clock
+                } else {
+                    clockElement.style.boxShadow = '0 0 35px rgba(114, 9, 183, 0.7)'; // Purple glow for half-past
+                }
+            }
+        }
+        // END CLOCK FUNCTIONS
 
 
         // === SQUARE GRID FUNCTIONS (REFACTORED FOR COVER/REVEAL) ===
@@ -933,14 +930,14 @@ function updateClock(timeString) {
             const gridContainer = document.createElement('div');
             gridContainer.className = 'square-grid-overlay';
             gridContainer.id = 'square-grid';
-            
+
             // Add counter to show remaining squares
             const counter = document.createElement('div');
             counter.className = 'square-counter';
             counter.id = 'square-counter';
             counter.textContent = `${TOTAL_SQUARES}/${TOTAL_SQUARES}`;
             gridContainer.appendChild(counter);
-            
+
             for (let i = 0; i < TOTAL_SQUARES; i++) {
                 const square = document.createElement('div');
                 square.className = 'square-block';
@@ -949,114 +946,114 @@ function updateClock(timeString) {
             }
             return gridContainer;
         }
-        
+
         function updateSquareCounter() {
             const counter = document.getElementById('square-counter');
             if (counter) {
                 counter.textContent = `${remainingSquares}/${TOTAL_SQUARES}`;
             }
             timerDisplay.textContent = `Squares: ${remainingSquares}/${TOTAL_SQUARES}`;
-            
+
             // Update progress bar
             const progressPercent = (squaresRemoved / TOTAL_SQUARES) * 100;
             progressBar.style.width = `${progressPercent}%`;
         }
-        
+
         function removeSquaresGradually() {
             const grid = document.getElementById('square-grid');
             if (!grid) return;
-            
+
             // Get all squares that are currently visible
             let visibleSquares = Array.from(grid.querySelectorAll('.square-block')).filter(
                 square => square.style.opacity !== '0'
             );
-            
+
             if (visibleSquares.length === 0) {
                 clearInterval(squareRemovalInterval);
                 squareRemovalInterval = null;
                 showNotification("Picture fully revealed! Great job!");
                 return;
             }
-            
+
             visibleSquares.sort(() => Math.random() - 0.5);
-            
+
             const squaresToRemove = Math.min(SQUARES_PER_SECOND, visibleSquares.length);
-            
+
             for (let i = 0; i < squaresToRemove; i++) {
                 if (visibleSquares[i]) {
                     visibleSquares[i].classList.add('removing');
-                    
+
                     setTimeout(() => {
                         visibleSquares[i].style.opacity = '0';
                         visibleSquares[i].classList.remove('removing');
                     }, 300);
-                    
+
                     remainingSquares--;
                     squaresRemoved++;
                 }
             }
-            
+
             updateSquareCounter();
         }
-        
+
         function startSquareRemovalInterval() {
             // Reset counters
             remainingSquares = TOTAL_SQUARES;
             squaresRemoved = 0;
             updateSquareCounter();
-            
+
             // Show progress bar
             progressContainer.style.display = 'block';
 
             // Update clock status with helper
             updateClockStatus('Revealing picture...', 'fa-eye');
-            
+
             // Clear any existing interval before starting a new one
             if (squareRemovalInterval) {
                 clearInterval(squareRemovalInterval);
             }
-            
+
             squareRemovalInterval = setInterval(removeSquaresGradually, 1000);
         }
-        
+
         // NEW FUNCTION: Covers the image and prepares the timer (used by Random Button)
         function coverAndResetSquares() {
             if (squareRemovalInterval) {
                 clearInterval(squareRemovalInterval);
                 squareRemovalInterval = null;
             }
-            
+
             progressContainer.style.display = 'none';
-            
+
             const grid = document.getElementById('square-grid');
             if (grid) {
                 Array.from(grid.querySelectorAll('.square-block')).forEach(square => {
                     square.style.opacity = '1'; // FULLY COVER
                     square.classList.remove('removing');
                 });
-                
+
                 remainingSquares = TOTAL_SQUARES;
                 squaresRemoved = 0;
                 updateSquareCounter();
             }
         }
-        
+
         // NEW FUNCTION: Reveals the image and stops the timer (used by Special Button & Initial Load)
         function revealAndStopSquares() {
             if (squareRemovalInterval) {
                 clearInterval(squareRemovalInterval);
                 squareRemovalInterval = null;
             }
-            
+
             progressContainer.style.display = 'none';
-            
+
             const grid = document.getElementById('square-grid');
             if (grid) {
                 Array.from(grid.querySelectorAll('.square-block')).forEach(square => {
                     square.style.opacity = '0'; // FULLY REVEAL
                     square.classList.remove('removing');
                 });
-                
+
                 remainingSquares = 0;
                 squaresRemoved = TOTAL_SQUARES;
                 updateSquareCounter();
@@ -1083,7 +1080,7 @@ function updateClock(timeString) {
             }
             return wordShuffleBag.pop();
         }
-        
+
         let shuffleBag = [];
 
         function refillAndShuffleBag() {
@@ -1104,7 +1101,7 @@ function updateClock(timeString) {
             }
             return shuffleBag.pop();
         }
-        
+
         refillAndShuffleWordBag();
         refillAndShuffleBag();
 
@@ -1124,7 +1121,7 @@ function updateClock(timeString) {
             img.src = SPECIAL_IMAGE_PATH;
             img.alt = `Vocabulary flashcard 1`;
             img.decoding = 'async';
-            
+
             const overlay = document.createElement('div');
             overlay.id = `overlay_0`;
             overlay.className = 'image-overlay-text';
@@ -1133,19 +1130,19 @@ function updateClock(timeString) {
             const squareGrid = createSquareGrid();
 
             img.addEventListener('load', handleImageLoad);
-            img.addEventListener('error', handleImageLoad); 
+            img.addEventListener('error', handleImageLoad);
 
             container.appendChild(img);
             container.appendChild(squareGrid);
-            container.appendChild(overlay); 
+            container.appendChild(overlay);
             imagesWrapper.appendChild(container);
-            
+
             progressContainer.style.display = 'none';
         }
-        
+
         // Initial setup
         createInitialImageSlot();
-        updateClock(READY_CLOCK_TIME); 
+        updateClock(READY_CLOCK_TIME);
         revealAndStopSquares(); // *** FIX: REVEAL THE IMAGE ON LOAD ***
 
 
@@ -1167,7 +1164,7 @@ function updateClock(timeString) {
 
         function handleImageLoad(event) {
             const img = event.target;
-            img.classList.remove('image-loading'); 
+            img.classList.remove('image-loading');
 
             const allImagesLoaded = Array.from(imagesWrapper.querySelectorAll('.flashcard-image')).every(
                 img => !img.classList.contains('image-loading')
@@ -1179,102 +1176,64 @@ function updateClock(timeString) {
                 setButtonLoading(specialButton, false);
             }
         }
-        
+
         function changeImage(imgElement, newPath) {
             imgElement.classList.add('image-loading');
             imgElement.src = newPath;
         }
 
-// === Random Button Logic (CORRECTED) ===
-randomButton.addEventListener('click', function() {
-    if (randomButton.classList.contains('loading')) return;
+        // === Random Button Logic (CORRECTED) ===
+        randomButton.addEventListener('click', function() {
+            if (randomButton.classList.contains('loading')) return;
 
-    setButtonLoading(randomButton, true);
-    coverAndResetSquares(); // Cover the image for the challenge
+            setButtonLoading(randomButton, true);
+            coverAndResetSquares(); // Cover the image for the challenge
 
-    const newClockTime = getRandomClockTime();
-    const imageElements = imagesWrapper.querySelectorAll('.flashcard-image');
-    const overlays = imagesWrapper.querySelectorAll('.image-overlay-text');
-    const textDisplayDuration = 1000;
+            const newClockTime = getRandomClockTime();
+            const imageElements = imagesWrapper.querySelectorAll('.flashcard-image');
+            const overlays = imagesWrapper.querySelectorAll('.image-overlay-text');
+            const textDisplayDuration = 1000;
 
-    isPaused = false;
-    isChallengeActive = true; 
-    pauseContinueButton.style.display = 'flex'; // Make the button visible
-    pauseContinueButton.innerHTML = PAUSE_CONTENT; // Ensure it says 'Pause'
+            isPaused = false;
+            isChallengeActive = true;
+            pauseContinueButton.style.display = 'flex'; // Make the button visible
+            pauseContinueButton.innerHTML = PAUSE_CONTENT; // Ensure it says 'Pause'
 
-    // --- STEP 1: PREPARE AND SHOW TEXT/CLOCK ---
-    updateClock(newClockTime);
-    
-    // Prepare next set of images
-    currentImageIndices = [];
-    imageElements.forEach(() => {
-        currentImageIndices.push(getNextShuffledImage());
-    });
+            // --- STEP 1: PREPARE AND SHOW TEXT/CLOCK ---
+            updateClock(newClockTime);
 
-    // Reveal the word overlay
-    overlays.forEach((overlay) => {
-        const shuffledWord = getNextShuffledWord();
-        overlay.textContent = shuffledWord; 
-        overlay.classList.add('show-text'); // TEXT SHOWS
-    });
-    
-    showNotification(`Match "${overlays[0].textContent}" with ${newClockTime}`, 2000);
+            // Prepare next set of images
+            currentImageIndices = [];
+            imageElements.forEach(() => {
+                currentImageIndices.push(getNextShuffledImage());
+            });
 
-    // --- STEP 2: TIMEOUT FOR IMAGE LOAD START ---
-    setTimeout(() => {
-        // Hide the word overlay
-        overlays.forEach(overlay => {
-            overlay.classList.remove('show-text'); // TEXT HIDES
+            // Reveal the word overlay
+            overlays.forEach((overlay) => {
+                const shuffledWord = getNextShuffledWord();
+                overlay.textContent = shuffledWord;
+                overlay.classList.add('show-text'); // TEXT SHOWS
+            });
+
+            showNotification(`Match "${overlays[0].textContent}" with ${newClockTime}`, 2000);
+
+            // --- STEP 2: TIMEOUT FOR IMAGE LOAD START ---
+            setTimeout(() => {
+                // Hide the word overlay
+                overlays.forEach(overlay => {
+                    overlay.classList.remove('show-text'); // TEXT HIDES
+                });
+
+                // Start image loading (this is asynchronous) and square removal
+                startSquareRemovalInterval();
+
+                imageElements.forEach((img, index) => {
+                    const newIndex = currentImageIndices[index];
+                    const newImagePath = `images/${newIndex}.png`;
+                    changeImage(img, newImagePath); // Triggers load and later handleImageLoad
+                });
+
+            }, textDisplayDuration);
         });
-        
-        // Start image loading (this is asynchronous) and square removal
-        startSquareRemovalInterval();
 
-        imageElements.forEach((img, index) => {
-            const newIndex = currentImageIndices[index];
-            const newImagePath = `images/${newIndex}.png`;
-            changeImage(img, newImagePath); // Triggers load and later handleImageLoad
-        });
-        
-    }, textDisplayDuration);
-});
-
-      // === Special Button (Back to Ready) Logic (CORRECTED) ===
-specialButton.addEventListener('click', function() {
-    // Check if we are already showing the special image (index 0)
-    const isReadyState = currentImageIndices.length === 1 && currentImageIndices[0] === 0;
-    if (isReadyState) {
-        showNotification("Already in ready state!");
-        return;
-    }
-
-    setButtonLoading(specialButton, true);
-    
-    updateClock(READY_CLOCK_TIME);
-    revealAndStopSquares(); // FULLY REVEAL the image for the ready state
-    
-    // --- NEW/ADJUSTED CODE FOR PAUSE STATE RESET ---
-    isChallengeActive = false; // End the challenge state
-    isPaused = false; // Reset pause state
-    pauseContinueButton.style.display = 'none'; // Hide the button
-    // ---------------------------------------------
-    
-    imagesWrapper.querySelectorAll('.image-overlay-text').forEach(overlay => {
-        overlay.classList.remove('show-text');
-    });
-
-    const imageElements = imagesWrapper.querySelectorAll('.flashcard-image');
-    imageElements.forEach((img) => {
-        // Force all images to index 0 (the special image)
-        // Note: For a single image, this is fine. For multiple, you'd reset the array.
-        changeImage(img, SPECIAL_IMAGE_PATH); 
-    });
-    
-    // Manually set the state back to ready (index 0)
-    currentImageIndices = [0]; 
-    
-    showNotification("Reset to ready state!");
-});
-    </script>
-</body>
-</html>
+        // =
