@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Vocabulary Flashcard</title>
+    <title>U-Z Challenge | Interactive Flashcards</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- PRELOAD INSTRUCTIONS START HERE -->
     <link rel="preload" as="image" href="images/background.png">
     <link rel="preload" as="image" href="images/0.png">
@@ -15,198 +19,655 @@
     <link rel="preload" as="image" href="images/6.png">
     <link rel="preload" as="image" href="images/7.png">
     <link rel="preload" as="image" href="images/8.png">
+    <link rel="preload" as="image" href="images/9.png">
+    <link rel="preload" as="image" href="images/10.png">
+    <link rel="preload" as="image" href="images/11.png">
+    <link rel="preload" as="image" href="images/12.png">
     <!-- PRELOAD INSTRUCTIONS END HERE -->
     <style>
-       h1 {
-            font-family: 'Comic Sans MS', sans-serif;
-            font-size: 2.5em;
-            text-align: center;
-            margin-top: 50px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        :root {
+            --primary-blue: #4361ee;
+            --primary-green: #4cc9f0;
+            --primary-dark: #2b2d42;
+            --primary-light: #f8f9fa;
+            --accent-purple: #7209b7;
+            --accent-orange: #f72585;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+            --radius-sm: 10px;
+            --radius-md: 15px;
+            --radius-lg: 20px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        h1:hover {
-            transform: scale(1.1);
-            transition: transform 0.3s ease;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-       
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f4f4f9;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             background-image: url('images/background.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding: 20px;
+            color: var(--primary-dark);
         }
-        #image-container {
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            width: 100%;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--primary-green);
             margin-bottom: 20px;
-            border: 5px solid #ccc;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-        #myImage {
-            width: 400px;
-            height: 400px;
-            object-fit: cover;
+
+        h1 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-green), var(--accent-orange));
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto 25px;
+            line-height: 1.5;
+        }
+
+        /* Controls Panel - REMOVED */
+
+        /* Images Wrapper */
+        #images-wrapper {
+            display: flex;
+            gap: 25px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .image-container {
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            border: 8px solid white;
+            background: white;
+        }
+
+        .image-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .flashcard-image {
+            object-fit: contain;
             display: block;
             opacity: 1;
-            transition: opacity 0.3s ease-in-out;
+            transition: opacity 0.4s ease-in-out;
+            background: white;
         }
-        .image-loading {
-            opacity: 0;
+        
+        /* Size adjustments - Fixed to single size (was images-wrapper-1) */
+        .images-wrapper-1 .flashcard-image {
+            width: 450px;
+            height: 450px;
         }
-        #button-group {
+        
+        /* .images-wrapper-2 .flashcard-image, .images-wrapper-3 .flashcard-image - REMOVED */
+        
+        /* Overlay text */
+        .image-overlay-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            gap: 15px;
-        }
-        .action-button {
-            padding: 12px 25px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        #randomImageButton {
-            background-color: #007bff;
-            color: white;
-        }
-        #randomImageButton:hover {
-            background-color: #0056b3;
-        }
-        #specialImageButton {
-            background-color: #28a745;
-            color: white;
-        }
-        #specialImageButton:hover {
-            background-color: #1e7e34;
-        }
-        .loading {
-            background-color: #ffc107 !important;
-            cursor: wait !important;
-            pointer-events: none;
-        }
-       
-        #text-overlay {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            align-items: center;
+            justify-content: center;
             z-index: 1000;
-            font-family: 'Comic Sans MS', sans-serif;
-            font-size: 3em;
-            font-weight: bold;
+            font-family: 'Nunito', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
             color: white;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 20px 40px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.9), rgba(114, 9, 183, 0.9));
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
             pointer-events: none;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
         }
+
         .show-text {
             opacity: 1 !important;
         }
+
+        .image-loading {
+            opacity: 0.5;
+        }
+
+        /* Buttons Panel */
+        .buttons-panel {
+            display: flex;
+            gap: 25px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .action-button {
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-width: 220px;
+            box-shadow: var(--shadow-md);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .action-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: width 0.4s ease;
+            z-index: -1;
+        }
+
+        .action-button:hover:before {
+            width: 100%;
+        }
+
+        .action-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-button:active {
+            transform: translateY(-2px);
+        }
+
+        #randomImageButton {
+            background: linear-gradient(135deg, var(--primary-blue), #3a0ca3);
+            color: white;
+        }
+
+        #randomImageButton:hover {
+            background: linear-gradient(135deg, #3a56e4, #2d0a8a);
+        }
+
+        #specialImageButton {
+            background: linear-gradient(135deg, var(--primary-green), #2a9d8f);
+            color: white;
+        }
+
+        #specialImageButton:hover {
+            background: linear-gradient(135deg, #3accef, #21867a);
+        }
+
+        .loading {
+            background: linear-gradient(135deg, #ffb347, #ffcc33) !important;
+            cursor: wait !important;
+            pointer-events: none;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .stat-item i {
+            color: var(--primary-blue);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .images-wrapper-1 .flashcard-image {
+                width: 400px;
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .images-wrapper-1 .flashcard-image {
+                width: 350px;
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            .buttons-panel {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .action-button {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            #images-wrapper {
+                gap: 20px;
+            }
+            
+            .images-wrapper-1 .flashcard-image {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .image-overlay-text {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .images-wrapper-1 .flashcard-image {
+                width: 260px;
+                height: 260px;
+            }
+            
+            .image-overlay-text {
+                font-size: 3rem;
+            }
+        }
+
+        /* Animation for initial load */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container, .header, #images-wrapper, .buttons-panel {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        #images-wrapper { animation-delay: 0.1s; }
+        .buttons-panel { animation-delay: 0.2s; }
     </style>
 </head>
 <body>
-    <h1>Word Picture Challenge</h1>
-    <div id="image-container">
-        <img id="myImage" src="images/0.png" alt="Currently displayed image" decoding="async">
+    <div class="container">
+        <div class="header">
+            <h1>U-Z Challenge</h1>
+            <p class="subtitle">Interactive flashcards for learning vocabulary.</p>
+        </div>
+
+        <!-- REMOVED: THE ENTIRE DISPLAY CONTROLS PANEL -->
+
+        <div id="images-wrapper" class="images-wrapper-1">
+            <!-- Images and Overlays will be dynamically inserted here -->
+        </div>
+
+        <div class="buttons-panel">
+            <button id="randomImageButton" class="action-button">
+                <i class="fas fa-random"></i>
+                <span>Show Random Images</span>
+            </button>
+            <button id="specialImageButton" class="action-button">
+                <i class="fas fa-home"></i>
+                <span>Back To Ready</span>
+            </button>
+        </div>
+
+        <div class="footer">
+            <p>U-Z Vocabulary Challenge • Interactive Learning Tool</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <i class="fas fa-images"></i>
+                    <span>Total Images: 12</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Shuffle Algorithm: Fisher-Yates</span>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="button-group">
-        <button id="randomImageButton" class="action-button">Show Random Image</button>
-        <button id="specialImageButton" class="action-button">Back To Ready</button>
-    </div>
-    <div id="text-overlay">NEW IMAGE</div>
-   
-    <script>
-        const imageElement = document.getElementById('myImage');
+    
+<script>
+        const imagesWrapper = document.getElementById('images-wrapper');
         const randomButton = document.getElementById('randomImageButton');
         const specialButton = document.getElementById('specialImageButton');
-        const textOverlay = document.getElementById('text-overlay');
-        
-        // **REMOVED: const TOTAL_IMAGES = 8;**
-        const MAX_FLASHCARDS = 8; // Use a constant for max image number 
-        let currentImageIndex = 0;
-        const SPECIAL_IMAGE_PATH = 'images/0.png';
+        // REMOVED: const imageSlider = document.getElementById('image-slider');
+        // REMOVED: const sliderValue = document.getElementById('slider-value');
 
-        // **REMOVED: SHUFFLE BAG SYSTEM**
-        // Replaced with a simple random number generator
-        function getRandomImageIndex() {
-            // Generates a random integer between 1 and MAX_FLASHCARDS (inclusive)
-            return Math.floor(Math.random() * MAX_FLASHCARDS) + 1;
+        const TOTAL_IMAGES = 12;
+        const SPECIAL_IMAGE_PATH = 'images/0.png';
+        
+        // Define constants for the original button content
+        const RANDOM_BUTTON_CONTENT = '<i class="fas fa-random"></i><span>Show Random Images</span>'; 
+        const SPECIAL_BUTTON_CONTENT = '<i class="fas fa-home"></i><span>Back To Ready</span>';       
+
+        let currentImageIndices = []; // Array to track indices of all displayed images
+        let imagesLoaded = 0; // Counter for loaded images
+
+        // Set initial button content (optional, but good practice)
+        randomButton.innerHTML = RANDOM_BUTTON_CONTENT;
+        specialButton.innerHTML = SPECIAL_BUTTON_CONTENT;
+
+
+        // Function to randomly select 'BIG' or 'LITTLE'
+        function getRandomWord() {
+            const words = ["big", "little"]; // Use uppercase to match new CSS
+            const randomIndex = Math.floor(Math.random() * words.length);
+            return words[randomIndex];
         }
 
+        // === SHUFFLE BAG SYSTEM ===
+        let shuffleBag = [];
+
+        function refillAndShuffleBag() {
+            shuffleBag = [];
+            for (let i = 1; i <= TOTAL_IMAGES; i++) {
+                shuffleBag.push(i);
+            }
+            // Fisher-Yates shuffle
+            for (let i = shuffleBag.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffleBag[i], shuffleBag[j]] = [shuffleBag[j], shuffleBag[i]];
+            }
+        }
+
+        function getNextShuffledImage() {
+            if (shuffleBag.length === 0) {
+                refillAndShuffleBag();
+            }
+            return shuffleBag.pop(); // Take from end for efficiency
+        }
+
+        // Initialize the bag on load
+        refillAndShuffleBag();
+
+        // === Image UI Management (MODIFIED TO STATICALLY CREATE 1 IMAGE) ===
+
+        // Function to create and insert the single image element
+        function createInitialImageSlot() {
+            const count = 1; // Fixed count
+            imagesWrapper.className = `images-wrapper-${count}`; // Set fixed size class
+            currentImageIndices = Array(count).fill(0); // Initialize with a single 0 index
+
+            const container = document.createElement('div');
+            container.className = 'image-container';
+
+            const img = document.createElement('img');
+            img.id = `myImage_0`;
+            img.className = 'flashcard-image';
+            img.src = SPECIAL_IMAGE_PATH; // Start with the ready image
+            img.alt = `Vocabulary flashcard 1`;
+            img.decoding = 'async';
+            
+            // Overlay element
+            const overlay = document.createElement('div');
+            overlay.id = `overlay_0`;
+            overlay.className = 'image-overlay-text';
+            overlay.textContent = "WORD"; // Placeholder text
+
+            // Add an event listener to the image
+            img.addEventListener('load', handleImageLoad);
+            img.addEventListener('error', handleImageLoad); 
+
+            container.appendChild(img);
+            container.appendChild(overlay); // Append overlay to the container
+            imagesWrapper.appendChild(container);
+        }
+        
+        // Initial creation of 1 image slot (REPLACED DYNAMIC CALL)
+        createInitialImageSlot();
+
+        // REMOVED: Slider Event Listener 
+        
         // === Button Feedback ===
-        function setButtonLoading(button, originalText, isLoading) {
+        function setButtonLoading(button, isLoading) {
+            
             if (isLoading) {
                 button.classList.add('loading');
-                button.textContent = 'Loading...';
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Loading...</span>';
             } else {
                 button.classList.remove('loading');
-                button.textContent = originalText;
+                // Restore the original content using constants
+                if (button.id === 'randomImageButton') {
+                    button.innerHTML = RANDOM_BUTTON_CONTENT;
+                } else if (button.id === 'specialImageButton') {
+                    button.innerHTML = SPECIAL_BUTTON_CONTENT;
+                }
             }
         }
 
         // === Image Load Handler ===
-        imageElement.addEventListener('load', function() {
-            imageElement.classList.remove('image-loading');
-            if (randomButton.classList.contains('loading')) {
-                setButtonLoading(randomButton, "Show Random Image", false);
-            } else if (specialButton.classList.contains('loading')) {
-                setButtonLoading(specialButton, "Back To Ready", false);
-            }
-        });
+        function handleImageLoad(event) {
+            const img = event.target;
+            // The loading class is removed regardless of load success or failure
+            img.classList.remove('image-loading'); 
 
+            // Check if all images have finished loading (will only check 1 image now)
+            const allImagesLoaded = Array.from(imagesWrapper.querySelectorAll('.flashcard-image')).every(
+                img => !img.classList.contains('image-loading')
+            );
+
+            if (allImagesLoaded && randomButton.classList.contains('loading')) {
+                setButtonLoading(randomButton, false);
+            } else if (allImagesLoaded && specialButton.classList.contains('loading')) {
+                setButtonLoading(specialButton, false);
+            }
+        }
+        
         // === Core Image Change ===
-        function changeImage(newPath, button) {
-            if (button.classList.contains('loading')) return;
-            const originalText = button.id === 'randomImageButton' ? "Show Random Image" : "Back To Ready";
-            setButtonLoading(button, originalText, true);
-            imageElement.classList.add('image-loading');
-            imageElement.src = newPath;
+        function changeImage(imgElement, newPath) {
+            // Apply loading state to image
+            imgElement.classList.add('image-loading');
+            imgElement.src = newPath;
+            // DEBUGGING AID: Log the path to console
+            console.log("Attempting to load image:", newPath); 
         }
 
-        // === Random Button Modified ===
+        // === Random Button Logic (Modified duration for a single image) ===
         randomButton.addEventListener('click', function() {
             if (randomButton.classList.contains('loading')) return;
 
-            randomButton.classList.add('loading');
-            textOverlay.classList.add('show-text');
+            setButtonLoading(randomButton, true);
 
+            const imageElements = imagesWrapper.querySelectorAll('.flashcard-image');
+            const overlays = imagesWrapper.querySelectorAll('.image-overlay-text');
+            const textDisplayDuration = 1000; // Fixed duration for a single image
+
+            // 1. Prepare/Pre-load (but don't display) the next set of images/indices
+            currentImageIndices = [];
+            imageElements.forEach(() => {
+                currentImageIndices.push(getNextShuffledImage());
+            });
+
+            // Hide all overlays initially (if any were showing)
+            overlays.forEach(overlay => {
+                overlay.classList.remove('show-text');
+            });
+
+            // The main action happens after a short delay
             setTimeout(() => {
-                textOverlay.classList.remove('show-text');
-                randomButton.classList.remove('loading');
-
-                // **MODIFIED: Get next image using Math.random()**
-                const newIndex = getRandomImageIndex();
-                currentImageIndex = newIndex;
-                const newImagePath = `images/${currentImageIndex}.png`;
-
-                specialButton.textContent = "Back To Ready";
-                changeImage(newImagePath, randomButton);
-            }, 1000);
+                // --- STEP 2: TEXT APPEARS ---
+                overlays.forEach((overlay, index) => {
+                    // Set a new random word for each overlay
+                    const randomWord = getRandomWord();
+                    overlay.textContent = randomWord; 
+                    overlay.classList.add('show-text'); // Show text
+                });
+                
+                specialButton.innerHTML = SPECIAL_BUTTON_CONTENT; // Ensure correct content is set
+                
+                // 2. Set a second timeout to make the text disappear AND load images
+                setTimeout(() => {
+                    // --- STEP 3: TEXT DISAPPEARS & IMAGE LOAD STARTS ---
+                    overlays.forEach(overlay => {
+                        overlay.classList.remove('show-text'); // Hide text
+                    });
+                    
+                    // Load images immediately after text disappears
+                    imageElements.forEach((img, index) => {
+                        const newIndex = currentImageIndices[index]; // Use the index we stored
+                        const newImagePath = `images/${newIndex}.png`;
+                        changeImage(img, newImagePath);
+                    });
+                    
+                }, textDisplayDuration);
+                
+            }, 300); // Small delay to allow the loading state to register (Text is ready to appear)
         });
 
-        // === Special Button (Back to Ready) ===
+        // === Special Button (Back to Ready) Logic ===
         specialButton.addEventListener('click', function() {
-            if (currentImageIndex === 0) return;
-            currentImageIndex = 0;
-            randomButton.textContent = "Show Random Image";
-            changeImage(SPECIAL_IMAGE_PATH, specialButton);
+            if (currentImageIndices.every(index => index === 0)) return; // Already at ready state
+
+            setButtonLoading(specialButton, true);
+
+            // Hide all overlays instantly
+            imagesWrapper.querySelectorAll('.image-overlay-text').forEach(overlay => {
+                overlay.classList.remove('show-text');
+            });
+
+            const imageElements = imagesWrapper.querySelectorAll('.flashcard-image');
+            imageElements.forEach((img, index) => {
+                currentImageIndices[index] = 0; // Set index to 0
+                changeImage(img, SPECIAL_IMAGE_PATH);
+            });
+            
+            // Note: The loading state removal for the button is handled in the handleImageLoad function 
         });
 
-        // Initial setup
-        randomButton.textContent = "Show Random Image";
-        specialButton.textContent = "Back To Ready";
+        // Add a subtle hover effect to the entire container
+        document.querySelector('.container').addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+
+        document.querySelector('.container').addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
     </script>
 </body>
 </html>
