@@ -856,29 +856,6 @@ pauseContinueButton.addEventListener('click', function() {
     setPauseState(!isPaused);
 });
 
-
-    // --- STEP 2: TIMEOUT FOR IMAGE LOAD START ---
-    setTimeout(() => {
-        // Hide the word overlay
-        overlays.forEach(overlay => {
-            overlay.classList.remove('show-text'); // TEXT HIDES
-        });
-        
-        // Start image loading (this is asynchronous) and square removal
-        // START THE INTERVAL ONLY IF NOT PAUSED (which it shouldn't be here)
-        if (!isPaused) {
-            startSquareRemovalInterval(); // This function already starts the interval
-        }
-
-        imageElements.forEach((img, index) => {
-            const newIndex = currentImageIndices[index];
-            const newImagePath = `images/${newIndex}.png`;
-            changeImage(img, newImagePath); // Triggers load and later handleImageLoad
-        });
-        
-    }, textDisplayDuration);
-});
-
         // === NOTIFICATION FUNCTION ===
         function showNotification(message, duration = 3000) {
             notification.textContent = message;
