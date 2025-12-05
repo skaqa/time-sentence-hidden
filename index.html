@@ -9,7 +9,6 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Digital Clock Font -->
-        <!-- Digital Clock Font -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <!-- PRELOAD INSTRUCTIONS START HERE -->
     <link rel="preload" as="image" href="images/background.png">
@@ -782,7 +781,8 @@
         const randomButton = document.getElementById('randomImageButton');
         const specialButton = document.getElementById('specialImageButton');
         const clockDisplay = document.getElementById('clock-display');
-        const clockLabel = document.querySelector('#digital-clock .time-label');
+        const timeLabel = document.getElementById('time-label'); 
+        const clockStatus = document.getElementById('clock-status');
         const notification = document.getElementById('notification');
         const progressBar = document.getElementById('progress-bar');
         const progressContainer = document.getElementById('progress-container');
@@ -1131,97 +1131,85 @@ function updateClock(timeString) {
             imgElement.src = newPath;
         }
 
-        // === Random Button Logic ===
-        randomButton.addEventListener('click', function() {
-            if (randomButton.classList.contains('loading')) return;
+// === Random Button Logic (CORRECTED) ===
+randomButton.addEventListener('click', function() {
+    if (randomButton.classList.contains('loading')) return;
 
-            setButtonLoading(randomButton, true);
-            coverAndResetSquares(); // *** FIX: COVER THE IMAGE FOR CHALLENGE ***
+    setButtonLoading(randomButton, true);
+    coverAndResetSquares(); // Cover the image for the challenge
 
-            const newClockTime = getRandomClockTime();
-            
-            const imageElements = imagesWrapper.querySelectorAll('.flashcard-image');
-            const overlays = imagesWrapper.querySelectorAll('.image-overlay-text');
-            const textDisplayDuration = 1000;
+    const newClockTime = getRandomClockTime();
+    const imageElements = imagesWrapper.querySelectorAll('.flashcard-image');
+    const overlays = imagesWrapper.querySelectorAll('.image-overlay-text');
+    const textDisplayDuration = 1000;
 
-            currentImageIndices = [];
-            imageElements.forEach(() => {
-                currentImageIndices.push(getNextShuffledImage());
-            });
+    // --- STEP 1: PREPARE AND SHOW TEXT/CLOCK ---
+    updateClock(newClockTime);
+    
+    // Prepare next set of images
+    currentImageIndices = [];
+    imageElements.forEach(() => {
+        currentImageIndices.push(getNextShuffledImage());
+    });
 
-            overlays.forEach(overlay => {
-                overlay.classList.remove('show-text');
-            });
+    // Reveal the word overlay
+    overlays.forEach((overlay) => {
+        const shuffledWord = getNextShuffledWord();
+        overlay.textContent = shuffledWord; 
+        overlay.classList.add('show-text'); // TEXT SHOWS
+    });
+    
+    showNotification(`Match "${overlays[0].textContent}" with ${newClockTime}`, 2000);
 
-            setTimeout(() => {
-                // --- STEP 2: TEXT APPEARS & CLOCK IS UPDATED ---
-                
-                updateClock(newClockTime);
-                
-                overlays.forEach((overlay, index) => {
-                    const shuffledWord = getNextShuffledWord();
-                    overlay.textContent = shuffledWord; 
-                    overlay.classList.add('show-text'); // TEXT SHOWS
-                });
-                
-                specialButton.innerHTML = SPECIAL_BUTTON_CONTENT;
-                
-                showNotification(`Match "${overlays[0].textContent}" with ${newClockTime}`, 2000);
-                
-                // 2. Set a second timeout to make the text disappear AND load images
-                setTimeout(() => {
-                    // --- STEP 3: TEXT DISAPPEARS, IMAGE LOAD STARTS, AND SQUARE REMOVAL STARTS ---
-                    overlays.forEach(overlay => {
-                        overlay.classList.remove('show-text'); // TEXT HIDES
-                    });
-                    
-                    startSquareRemovalInterval();
-
-                    imageElements.forEach((img, index) => {
-                        const newIndex = currentImageIndices[index];
-                        const newImagePath = `images/${newIndex}.png`;
-                        changeImage(img, newImagePath);
-                    });
-                    
-                }, textDisplayDuration);
-                
-            }, 300);
+    // --- STEP 2: TIMEOUT FOR IMAGE LOAD START ---
+    setTimeout(() => {
+        // Hide the word overlay
+        overlays.forEach(overlay => {
+            overlay.classList.remove('show-text'); // TEXT HIDES
         });
+        
+        // Start image loading (this is asynchronous) and square removal
+        startSquareRemovalInterval();
 
-        // === Special Button (Back to Ready) Logic ===
-        specialButton.addEventListener('click', function() {
-            if (currentImageIndices.every(index => index === 0)) {
-                showNotification("Already in ready state!");
-                return;
-            }
-
-            setButtonLoading(specialButton, true);
-            
-            updateClock(READY_CLOCK_TIME);
-            revealAndStopSquares(); // *** FIX: REVEAL THE IMAGE FOR READY STATE ***
-
-            imagesWrapper.querySelectorAll('.image-overlay-text').forEach(overlay => {
-                overlay.classList.remove('show-text');
-            });
-
-            const imageElements = imagesWrapper.querySelectorAll('.flashcard-image');
-            imageElements.forEach((img, index) => {
-                currentImageIndices[index] = 0;
-                changeImage(img, SPECIAL_IMAGE_PATH);
-            });
-            
-            showNotification("Reset to ready state!");
+        imageElements.forEach((img, index) => {
+            const newIndex = currentImageIndices[index];
+            const newImagePath = `images/${newIndex}.png`;
+            changeImage(img, newImagePath); // Triggers load and later handleImageLoad
         });
+        
+    }, textDisplayDuration);
+});
 
-        // Add hover effects
-        document.querySelector('.container').addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-            this.style.transition = 'transform 0.3s ease';
-        });
+      // === Special Button (Back to Ready) Logic (CORRECTED) ===
+specialButton.addEventListener('click', function() {
+    // Check if we are already showing the special image (index 0)
+    const isReadyState = currentImageIndices.length === 1 && currentImageIndices[0] === 0;
+    if (isReadyState) {
+        showNotification("Already in ready state!");
+        return;
+    }
 
-        document.querySelector('.container').addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
+    setButtonLoading(specialButton, true);
+    
+    updateClock(READY_CLOCK_TIME);
+    revealAndStopSquares(); // FULLY REVEAL the image for the ready state
+
+    imagesWrapper.querySelectorAll('.image-overlay-text').forEach(overlay => {
+        overlay.classList.remove('show-text');
+    });
+
+    const imageElements = imagesWrapper.querySelectorAll('.flashcard-image');
+    imageElements.forEach((img) => {
+        // Force all images to index 0 (the special image)
+        // Note: For a single image, this is fine. For multiple, you'd reset the array.
+        changeImage(img, SPECIAL_IMAGE_PATH); 
+    });
+    
+    // Manually set the state back to ready (index 0)
+    currentImageIndices = [0]; 
+    
+    showNotification("Reset to ready state!");
+});
     </script>
 </body>
 </html>
