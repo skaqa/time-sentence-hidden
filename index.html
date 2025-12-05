@@ -75,7 +75,7 @@
             align-items: center;
             gap: 30px;
             padding: 40px;
-            background-color: rgba(255, 255, 255, 0.88);
+            background-color: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(10px);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-lg);
@@ -154,10 +154,12 @@
             transition: var(--transition);
             border: 8px solid white;
             background: white;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
         .image-container:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
         }
 
@@ -167,6 +169,7 @@
             opacity: 1;
             transition: opacity 0.4s ease-in-out;
             background: white;
+            transform: translateZ(10px);
         }
         
         /* Size adjustments - Fixed to single size (was images-wrapper-1) */
@@ -186,6 +189,7 @@
             flex-wrap: wrap;
             z-index: 999; /* Below text overlay (1000), above image */
             pointer-events: none;
+            transform: translateZ(5px);
         }
 
         /* NEW: Single Square Block */
@@ -193,8 +197,15 @@
             width: 15px; /* 450px / 30 = 15px per side */
             height: 15px;
             background-color: var(--primary-dark); /* Dark color to block the image */
-            transition: opacity 0.1s ease-out; /* Smooth removal effect */
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Smooth removal effect */
             opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Enhanced animation for square removal */
+        .square-block.removing {
+            opacity: 0;
+            transform: scale(0.5) rotate(45deg);
         }
 
         /* Overlay text */
@@ -212,12 +223,14 @@
             font-size: 3.5rem; 
             font-weight: 900;
             color: white;
-            background: linear-gradient(135deg, rgba(67, 97, 238, 0.9), rgba(114, 9, 183, 0.9));
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.95), rgba(114, 9, 183, 0.95));
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
             pointer-events: none;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
             letter-spacing: 2px;
+            transform: translateZ(15px);
+            border-radius: 10px;
         }
 
         .show-text {
@@ -230,33 +243,72 @@
 
         /* Digital Clock Styles */
         #digital-clock {
-            background: var(--primary-dark);
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
             color: #00ff00; 
             font-family: 'Orbitron', sans-serif;
             padding: 30px;
             border-radius: var(--radius-md);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5), inset 0 0 10px rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6), 
+                        inset 0 0 15px rgba(0, 255, 0, 0.4),
+                        0 10px 30px rgba(0, 0, 0, 0.3);
             font-size: 5rem;
             font-weight: 700;
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
             min-width: 280px;
             text-align: center;
-            border: 5px solid #1a1a1a;
+            border: 5px solid #0f3460;
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 450px;
+            overflow: hidden;
+        }
+        
+        #digital-clock:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg, 
+                transparent 30%, 
+                rgba(0, 255, 0, 0.1) 50%, 
+                transparent 70%
+            );
+            animation: clockGlow 6s infinite linear;
         }
         
         .time-label {
             font-size: 1.5rem;
-            color: #00cc00;
+            color: #00ffaa;
             margin-top: 15px;
             font-weight: 400;
             letter-spacing: 1px;
-            text-shadow: none;
+            text-shadow: 0 0 5px rgba(0, 255, 170, 0.7);
+            z-index: 2;
+        }
+
+        /* Progress Bar for Square Removal */
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+            width: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease-out;
         }
 
         /* Buttons Panel */
@@ -366,10 +418,30 @@
             align-items: center;
             gap: 8px;
             font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
 
         .stat-item i {
             color: var(--primary-blue);
+        }
+
+        /* Square removal counter */
+        .square-counter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            z-index: 1001;
+            font-family: 'Poppins', sans-serif;
         }
 
         /* Responsive Design */
@@ -497,19 +569,52 @@
             }
         }
 
+        @keyframes clockGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 0, 0.8); }
+            100% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
+        }
+
         .container, .header, #content-wrapper, .buttons-panel {
             animation: fadeInUp 0.6s ease-out forwards;
         }
 
         #content-wrapper { animation-delay: 0.1s; }
         .buttons-panel { animation-delay: 0.2s; }
+        
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+            z-index: 2000;
+            transform: translateX(150%);
+            transition: transform 0.5s ease;
+            font-weight: 500;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body>
+    <div class="notification" id="notification"></div>
+    
     <div class="container">
         <div class="header">
             <h1>Time & Hidden Picture Challenge</h1>
-            <p class="subtitle">Interactive flashcards for learning.</p>
+            <p class="subtitle">Interactive flashcards for learning. Match the time with the vocabulary word to reveal the hidden picture!</p>
         </div>
 
         <div id="content-wrapper">
@@ -522,11 +627,15 @@
                 <span class="time-label">Ready</span>
             </div>
         </div>
+        
+        <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
 
         <div class="buttons-panel">
             <button id="randomImageButton" class="action-button">
                 <i class="fas fa-random"></i>
-                <span>Show Random Images</span>
+                <span>Show Random Challenge</span>
             </button>
             <button id="specialImageButton" class="action-button">
                 <i class="fas fa-home"></i>
@@ -545,6 +654,10 @@
                     <i class="fas fa-sync-alt"></i>
                     <span>Shuffle Algorithm: Fisher-Yates</span>
                 </div>
+                <div class="stat-item">
+                    <i class="fas fa-stopwatch"></i>
+                    <span id="timer-display">Squares: 900/900</span>
+                </div>
             </div>
         </div>
     </div>
@@ -555,19 +668,36 @@
         const specialButton = document.getElementById('specialImageButton');
         const clockDisplay = document.getElementById('clock-display');
         const clockLabel = document.querySelector('#digital-clock .time-label');
+        const notification = document.getElementById('notification');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const timerDisplay = document.getElementById('timer-display');
 
         const TOTAL_IMAGES = 12;
         const SPECIAL_IMAGE_PATH = 'images/0.png';
         
-        const RANDOM_BUTTON_CONTENT = '<i class="fas fa-random"></i><span>Show Random Images</span>'; 
+        const RANDOM_BUTTON_CONTENT = '<i class="fas fa-random"></i><span>Show Random Challenge</span>'; 
         const SPECIAL_BUTTON_CONTENT = '<i class="fas fa-home"></i><span>Back To Ready</span>';       
 
         let currentImageIndices = [];
         const READY_CLOCK_TIME = "00:00";
         let intervalId = null; // To hold the ID of the square removal interval
+        let squareRemovalInterval = null; // For the continuous removal
         const TOTAL_SQUARES = 900; // 30x30
         const SQUARES_PER_SECOND = 15;
+        let remainingSquares = TOTAL_SQUARES;
+        let squaresRemoved = 0;
 
+
+        // === NOTIFICATION FUNCTION ===
+        function showNotification(message, duration = 3000) {
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, duration);
+        }
 
         // === CLOCK FUNCTIONS ===
         function getRandomClockTime() {
@@ -582,6 +712,13 @@
         
         function updateClock(timeString) {
             clockDisplay.textContent = timeString;
+            
+            // Add pulse animation when time changes
+            clockDisplay.style.animation = 'none';
+            setTimeout(() => {
+                clockDisplay.style.animation = 'pulse 1s ease';
+            }, 10);
+            
             if (timeString === READY_CLOCK_TIME) {
                 clockLabel.textContent = "Ready";
             } else {
@@ -598,79 +735,130 @@
         // END CLOCK FUNCTIONS
 
 
-        // === SQUARE GRID FUNCTIONS (NEW) ===
+        // === SQUARE GRID FUNCTIONS (ENHANCED) ===
         function createSquareGrid() {
             const gridContainer = document.createElement('div');
             gridContainer.className = 'square-grid-overlay';
             gridContainer.id = 'square-grid';
             
+            // Add counter to show remaining squares
+            const counter = document.createElement('div');
+            counter.className = 'square-counter';
+            counter.id = 'square-counter';
+            counter.textContent = `${TOTAL_SQUARES}/${TOTAL_SQUARES}`;
+            gridContainer.appendChild(counter);
+            
             for (let i = 0; i < TOTAL_SQUARES; i++) {
                 const square = document.createElement('div');
                 square.className = 'square-block';
+                square.dataset.index = i;
                 gridContainer.appendChild(square);
             }
             return gridContainer;
+        }
+        
+        function updateSquareCounter() {
+            const counter = document.getElementById('square-counter');
+            if (counter) {
+                counter.textContent = `${remainingSquares}/${TOTAL_SQUARES}`;
+            }
+            timerDisplay.textContent = `Squares: ${remainingSquares}/${TOTAL_SQUARES}`;
+            
+            // Update progress bar
+            const progressPercent = (squaresRemoved / TOTAL_SQUARES) * 100;
+            progressBar.style.width = `${progressPercent}%`;
         }
         
         function removeSquaresGradually() {
             const grid = document.getElementById('square-grid');
             if (!grid) return;
             
-            // Get all squares that are currently visible (opacity 1)
+            // Get all squares that are currently visible
             let visibleSquares = Array.from(grid.querySelectorAll('.square-block')).filter(
-                square => square.style.opacity !== '0'
+                square => !square.classList.contains('removing') && square.style.opacity !== '0'
             );
             
-            // If the array is empty, clear the interval
+            // If the array is empty, clear the interval and show completion message
             if (visibleSquares.length === 0) {
-                clearInterval(intervalId);
-                intervalId = null;
+                clearInterval(squareRemovalInterval);
+                squareRemovalInterval = null;
+                showNotification("Picture fully revealed! Great job!");
                 return;
             }
             
-            // Shuffle the visible squares to ensure random removal
+            // Shuffle the visible squares
             visibleSquares.sort(() => Math.random() - 0.5);
             
-            // Determine how many to remove (min of SQUARES_PER_SECOND or remaining squares)
+            // Determine how many to remove
             const squaresToRemove = Math.min(SQUARES_PER_SECOND, visibleSquares.length);
             
-            // Remove the first 'squaresToRemove' from the shuffled list
+            // Remove the squares with animation
             for (let i = 0; i < squaresToRemove; i++) {
                 if (visibleSquares[i]) {
-                    visibleSquares[i].style.opacity = '0'; // Use opacity for smooth transition
+                    visibleSquares[i].classList.add('removing');
+                    
+                    // After animation completes, set opacity to 0
+                    setTimeout(() => {
+                        visibleSquares[i].style.opacity = '0';
+                        visibleSquares[i].classList.remove('removing');
+                    }, 300);
+                    
+                    remainingSquares--;
+                    squaresRemoved++;
                 }
             }
+            
+            updateSquareCounter();
         }
         
         function startSquareRemovalInterval() {
+            // Reset counters
+            remainingSquares = TOTAL_SQUARES;
+            squaresRemoved = 0;
+            updateSquareCounter();
+            
+            // Show progress bar
+            progressContainer.style.display = 'block';
+            
             // Clear any existing interval before starting a new one
-            if (intervalId) {
-                clearInterval(intervalId);
+            if (squareRemovalInterval) {
+                clearInterval(squareRemovalInterval);
             }
             
             // Start the interval: remove SQUARES_PER_SECOND every 1000ms (1 second)
-            intervalId = setInterval(removeSquaresGradually, 1000);
+            squareRemovalInterval = setInterval(removeSquaresGradually, 1000);
+            
+            showNotification("Squares are being removed! Watch the picture appear.");
         }
         
         function resetSquareGrid() {
             // Stop the removal interval
-            if (intervalId) {
-                clearInterval(intervalId);
-                intervalId = null;
+            if (squareRemovalInterval) {
+                clearInterval(squareRemovalInterval);
+                squareRemovalInterval = null;
             }
             
-            // Set all squares to visible again
+            // Hide progress bar
+            progressContainer.style.display = 'none';
+            
+            // Reset all squares to visible
             const grid = document.getElementById('square-grid');
             if (grid) {
                 Array.from(grid.querySelectorAll('.square-block')).forEach(square => {
                     square.style.opacity = '1';
+                    square.classList.remove('removing');
                 });
+                
+                // Reset counters
+                remainingSquares = TOTAL_SQUARES;
+                squaresRemoved = 0;
+                updateSquareCounter();
             }
         }
         // END SQUARE GRID FUNCTIONS
 
 
-        // === WORD & IMAGE SHUFFLE BAGS (Same as previous) ===
+        // === WORD & IMAGE SHUFFLE BAGS ===
         const VOCAB_WORDS = ["you", "you(2 or more)", "he", "she", "it", "they"];
         let wordShuffleBag = [];
 
@@ -705,6 +893,7 @@
         function getNextShuffledImage() {
             if (shuffleBag.length === 0) {
                 refillAndShuffleBag();
+                showNotification("Shuffling images... New set loaded!");
             }
             return shuffleBag.pop();
         }
@@ -712,7 +901,7 @@
         refillAndShuffleWordBag();
         refillAndShuffleBag();
 
-        // === Image UI Management (UPDATED to include Grid) ===
+        // === Image UI Management ===
 
         function createInitialImageSlot() {
             const count = 1;
@@ -734,16 +923,19 @@
             overlay.className = 'image-overlay-text';
             overlay.textContent = "WORD";
 
-            // NEW: Create and append the square grid overlay
+            // Create and append the square grid overlay
             const squareGrid = createSquareGrid();
 
             img.addEventListener('load', handleImageLoad);
             img.addEventListener('error', handleImageLoad); 
 
             container.appendChild(img);
-            container.appendChild(squareGrid); // Square Grid is below the text overlay (z-index 999)
+            container.appendChild(squareGrid);
             container.appendChild(overlay); 
             imagesWrapper.appendChild(container);
+            
+            // Hide progress bar initially
+            progressContainer.style.display = 'none';
         }
         
         // Initial setup
@@ -751,10 +943,9 @@
         updateClock(READY_CLOCK_TIME); 
 
 
-        // === Button Feedback and Handlers (Simplified) ===
+        // === Button Feedback and Handlers ===
 
         function setButtonLoading(button, isLoading) {
-            
             if (isLoading) {
                 button.classList.add('loading');
                 button.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Loading...</span>';
@@ -788,7 +979,7 @@
             imgElement.src = newPath;
         }
 
-        // === Random Button Logic (UPDATED FOR SQUARES) ===
+        // === Random Button Logic ===
         randomButton.addEventListener('click', function() {
             if (randomButton.classList.contains('loading')) return;
 
@@ -823,6 +1014,9 @@
                 
                 specialButton.innerHTML = SPECIAL_BUTTON_CONTENT;
                 
+                // Show notification about the challenge
+                showNotification(`Match "${overlays[0].textContent}" with ${newClockTime}`, 2000);
+                
                 // 2. Set a second timeout to make the text disappear AND load images
                 setTimeout(() => {
                     // --- STEP 3: TEXT DISAPPEARS, IMAGE LOAD STARTS, AND SQUARE REMOVAL STARTS ---
@@ -845,9 +1039,12 @@
             }, 300);
         });
 
-        // === Special Button (Back to Ready) Logic (UPDATED TO RESET SQUARES) ===
+        // === Special Button (Back to Ready) Logic ===
         specialButton.addEventListener('click', function() {
-            if (currentImageIndices.every(index => index === 0)) return;
+            if (currentImageIndices.every(index => index === 0)) {
+                showNotification("Already in ready state!");
+                return;
+            }
 
             setButtonLoading(specialButton, true);
             
@@ -863,17 +1060,11 @@
                 currentImageIndices[index] = 0;
                 changeImage(img, SPECIAL_IMAGE_PATH);
             });
+            
+            showNotification("Reset to ready state!");
         });
 
-        // Add a subtle hover effect to the entire container
+        // Add hover effects
         document.querySelector('.container').addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-5px)';
-            this.style.transition = 'transform 0.3s ease';
-        });
-
-        document.querySelector('.container').addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    </script>
-</body>
-</html>
+            this.style.transition = 'transform 0.3s ease
